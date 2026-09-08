@@ -109,7 +109,7 @@ function isStudent(obj: unknown): obj is Student {
 
 const validCandidate: unknown = {
   id: 101,
-  name: "Alice Johnson",
+  name: "Alice Johnsons",
   email: "alice@example.com",
   status: "active",
 };
