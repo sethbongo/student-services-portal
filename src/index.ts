@@ -5,8 +5,24 @@ interface Student {
   status: "active" | "inactive";
 }
 
+function getStatusLabel(status: unknown): string {
+  if (typeof status !== "string") {
+    return "Unknown Status";
+  }
+
+  const normalized = status.trim().toLowerCase();
+  switch (normalized) {
+    case "active":
+      return "Active Student";
+    case "inactive":
+      return "Inactive Student";
+    default:
+      return "Unknown Status";
+  }
+}
+
 function formatStudent(student: Student): string {
-  return `${student.id} - ${student.name} (${student.status})`;
+  return `${student.id} - ${student.name} (${getStatusLabel(student.status)})`;
 }
 
 const student: Student = {
@@ -16,10 +32,12 @@ const student: Student = {
   status: "active",
 };
 
-console.log(formatStudent(student));
+console.log("==========================================");
+console.log("         STUDENT SERVICES PORTAL          ");
+console.log("==========================================");
+console.log(`Current Student : ${formatStudent(student)}`);
+console.log(`Contact Email   : ${student.email}`);
 console.log();
-
-
 
 
 
@@ -52,11 +70,22 @@ const studentListResponse: ApiResponse<Student[]> = {
   ],
 };
 
-console.log("Single Student Response:", singleStudentResponse);
 
-console.log("Student List Response:", studentListResponse);
-console.log(`Total students in list: ${studentListResponse.data.length}`);
+console.log("[Single Student Response]");
+
+console.log(`  Student : ${formatStudent(singleStudentResponse.data)}`);
+console.log(`  Email   : ${singleStudentResponse.data.email}`);
 console.log();
+
+console.log("[Student List Response]");
+
+console.log(`  Count   : ${studentListResponse.data.length} student(s)`);
+console.log("  List  :");
+for (const s of studentListResponse.data) {
+  console.log(`    • ${formatStudent(s)} | ${s.email}`);
+}
+console.log();
+
 
 
 
@@ -78,7 +107,6 @@ function isStudent(obj: unknown): obj is Student {
   return hasValidId && hasValidName && hasValidEmail && hasValidStatus;
 }
 
-
 const validCandidate: unknown = {
   id: 101,
   name: "Alice Johnson",
@@ -87,7 +115,7 @@ const validCandidate: unknown = {
 };
 
 const invalidIdCandidate: unknown = {
-  id: "STD-102", 
+  id: "STD-102",
   name: "Bob Williams",
   email: "bob@example.com",
   status: "active",
@@ -99,18 +127,24 @@ const missingNameCandidate: unknown = {
   status: "inactive",
 };
 
-function testValidation(label: string, data: unknown): void {
-  console.log(`Testing: ${label}`);
-  console.log("Input:", JSON.stringify(data));
+function testValidation(testTitle: string, data: unknown): void {
+  console.log(`Test: ${testTitle}`);
+  console.log(`  Input  : ${JSON.stringify(data)}`);
   if (isStudent(data)) {
-    console.log(`  Result: VALID Student -> ${formatStudent(data)}`);
+    console.log(`  Result : [VALID]   -> ${formatStudent(data)}`);
   } else {
-    console.log("  Result: INVALID Student ");
+    console.log(`  Result : [INVALID] -> Does not satisfy Student structure`);
   }
+  console.log();
 }
 
-testValidation("1 Student Object", validCandidate);
-testValidation("2 Student Object",
+console.log("------------------------------------------");
+console.log("Runtime Validation Tests");
+console.log("------------------------------------------");
+testValidation("Valid Student Object", validCandidate);
+testValidation(
+  "Invalid Object",
   invalidIdCandidate
 );
-testValidation("3 Student Object", missingNameCandidate);
+testValidation("Invalid Object", missingNameCandidate);
+console.log("==========================================");

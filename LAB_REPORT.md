@@ -157,56 +157,42 @@ src/index.ts 86ms (unchanged)
 > student-services-portal@1.0.0 start
 > tsx src/index.ts
 
-=== Basic Student Demonstration ===
-1 - Seth Bongo (active)
+==========================================
+         STUDENT SERVICES PORTAL          
+==========================================
+Current Student : 1 - Seth Bongo (Active Student)
+Contact Email   : rbongo581@gmail.com
 
-=== Part 6: Generic API Responses ===
-Single Student Response: {
-  success: true,
-  data: {
-    id: 1,
-    name: 'Seth Bongo',
-    email: 'rbongo581@gmail.com',
-    status: 'active'
-  }
-}
-Single Student Data: 1 - Seth Bongo (active)
-Student List Response: {
-  success: true,
-  data: [
-    {
-      id: 1,
-      name: 'Seth Bongo',
-      email: 'rbongo581@gmail.com',
-      status: 'active'
-    },
-    {
-      id: 2,
-      name: 'Jane Doe',
-      email: 'jane.doe@example.com',
-      status: 'active'
-    },
-    {
-      id: 3,
-      name: 'John Smith',
-      email: 'john.smith@example.com',
-      status: 'inactive'
-    }
-  ]
-}
-Total students in list: 3
+------------------------------------------
+API Responses (Generic ApiResponse<T>)
+------------------------------------------
+[Single Student Response]
+  Status  : Success
+  Student : 1 - Seth Bongo (Active Student)
+  Email   : rbongo581@gmail.com
 
-=== Part 7: Runtime Validation ===
-Testing: Valid Student Object
-Input: {"id":101,"name":"Alice Johnson","email":"alice@example.com","status":"active"}
-  Result: VALID Student -> 101 - Alice Johnson (active)
------------------------------------------
-Testing: Invalid Object: Incorrect ID (string instead of number)
-Input: {"id":"STD-102","name":"Bob Williams","email":"bob@example.com","status":"active"}
-  Result: INVALID Student (Validation Failed)
------------------------------------------
-Testing: Invalid Object: Missing Student Name
-Input: {"id":103,"email":"charlie@example.com","status":"inactive"}
-  Result: INVALID Student (Validation Failed)
------------------------------------------
+[Student List Response]
+  Status  : Success
+  Count   : 3 student(s)
+  Roster  :
+    • 1 - Seth Bongo (Active Student) | rbongo581@gmail.com
+    • 2 - Jane Doe (Active Student) | jane.doe@example.com
+    • 3 - John Smith (Inactive Student) | john.smith@example.com
+
+------------------------------------------
+Runtime Validation Tests
+------------------------------------------
+Test: Valid Student Object
+  Input  : {"id":101,"name":"Alice Johnson","email":"alice@example.com","status":"active"}
+  Result : [VALID]   -> 101 - Alice Johnson (Active Student)
+
+Test: Invalid Object (Incorrect ID: string instead of number)
+  Input  : {"id":"STD-102","name":"Bob Williams","email":"bob@example.com","status":"active"}
+  Result : [INVALID] -> Does not satisfy Student structure
+
+Test: Invalid Object (Missing Student Name)
+  Input  : {"id":103,"email":"charlie@example.com","status":"inactive"}
+  Result : [INVALID] -> Does not satisfy Student structure
+
+==========================================
 ```
