@@ -1,0 +1,6 @@
+node_modules/
+dist/
+package-lock.json
+src/**/*.js
+src/**/*.d.ts
+src/**/*.map
